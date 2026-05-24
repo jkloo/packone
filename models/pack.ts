@@ -2,7 +2,7 @@ import type { Card, Printing } from "./card";
 import type { CardFlattened } from "./card-flattened";
 
 export type Pack = {
-  set_id: string;
+  filters: Filter[]
   sections: PackSection[]
 }
 
@@ -93,7 +93,7 @@ const chooseLayout = (layouts: Layout[]): Layout => {
 }
 
 export const buildPack = (pack: Pack, cards: CardFlattened[]) => {  
-  const setCards = cards.filter((card) => (card.set_id == pack.set_id))
+  const setCards = cards.filter((card) => applyFilters(card, pack.filters))
   const result: CardFlattened[] = []
 
   for (const section of pack.sections) {
@@ -107,7 +107,10 @@ export const buildPack = (pack: Pack, cards: CardFlattened[]) => {
 }
 
 export const omens: Pack = {
-  set_id: "OMN",
+  filters: [
+    { key: "set_id", value: "OMN"},
+    not(EXPSLOT)
+  ],
   sections: [
     {
       size: 6,
@@ -210,17 +213,17 @@ export const omens: Pack = {
       size: 1,
       filters: [NONFOIL],
       layouts: [
-        { slots: [{ filters: [RARE] }], weight: 1 },
+        { slots: [{ filters: [RARE] }], weight: 6 },
         { slots: [{ filters: [MAJESTIC, not(EXPSLOT)] }], weight: 1 },
       ]
     },
     {
       size: 1,
-      filters: [RAINBOWFOIL], 
+      filters: [RAINBOWFOIL, not(EQUIPMENT)],
       layouts: [
-        { slots: [{ filters: [COMMON] }], weight: 1 },
-        { slots: [{ filters: [RARE] }], weight: 1 },
-        { slots: [{ filters: [MAJESTIC] }], weight: 1 },
+        { slots: [{ filters: [COMMON] }], weight: 39*3 },
+        { slots: [{ filters: [RARE] }], weight: 21*3 },
+        { slots: [{ filters: [MAJESTIC] }], weight: 15 },
       ]
     }
   ]

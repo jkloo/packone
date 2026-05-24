@@ -4,7 +4,6 @@ import { buildPack, omens } from "./models/pack";
 export const generate = async (): Promise<CardFlattened[]> => {
   const file = Bun.file("flesh-and-blood-cards/json/english/card-flattened.json")
   const cards = await file.json() as CardFlattened[]
-  console.log(cards.length)
 
   return buildPack(omens, cards)
 }
