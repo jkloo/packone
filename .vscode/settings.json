@@ -2,7 +2,8 @@
     "files.exclude": {
         "**/node_modules/**": true,
         "bun.lock": true,
-        "**/flesh-and-blood-cards": true
+        "**/flesh-and-blood-cards": true,
+        "**/.vscode": true
     },
     "editor.tabSize": 2
 }
